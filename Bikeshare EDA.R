@@ -12,9 +12,9 @@ BikeShareTrain <- BikeShareTrain|>
   mutate(holiday = as.factor(holiday))|>
   mutate(workingday = as.factor(workingday))
 
-weather <- BikeShareTrain|>
-  ggplot(aes(x = weather, y = count, fill = weather))+
-  geom_boxplot()+
+Weather_plot <- BikeShareTrain|>
+  ggplot(aes(x = weather, fill = weather))+
+  geom_bar()+
   labs(
     x = "Weather",
     y = "Number of Rentals",
@@ -23,7 +23,7 @@ weather <- BikeShareTrain|>
   )+
   theme(legend.position = "none")
 
-season <- BikeShareTrain|>
+Season_plot <- BikeShareTrain|>
   ggplot(aes(x = season , y = count, fill = season))+
   geom_boxplot()+
   labs(
@@ -34,7 +34,7 @@ season <- BikeShareTrain|>
   )+
   theme(legend.position = "none")
 
-Work <- BikeShareTrain|>
+Work_plot <- BikeShareTrain|>
   ggplot(aes(y = workingday, fill = workingday))+
   geom_bar()+
   labs(
@@ -45,7 +45,7 @@ Work <- BikeShareTrain|>
   )+
   theme(legend.position = "none")
 
-Temp <- BikeShareTrain|>
+Temp_plot <- BikeShareTrain|>
   ggplot(aes(x = temp, y = count))+
   geom_point()+
   labs(
@@ -55,7 +55,7 @@ Temp <- BikeShareTrain|>
   )+
   geom_smooth(method = "lm", color = "red")
 
-(season | weather)/(Temp | Work) +
+(Season_plot | Weather_plot)/(Temp_plot | Work_plot) +
   plot_annotation(caption = "Data source: Kaggle.com")
 
 
