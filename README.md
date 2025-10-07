@@ -11,7 +11,7 @@ These plots were made using the ggplot2 and patchwork packages in R, shown in th
 # Data
 All data for this project was obtained from the Kaggle website. 
 # purpose 
-This project was done for a university project in my predictive analytics class at Brigham Young University. The goal of this assignment was to achieve a Kaggle
+This project was done for a university project in my predictive analytics (STAT 348) class at Brigham Young University. The goal of this assignment was to achieve a Kaggle
 score below 0.4. I achieved a score of 0.396 using a Random Forests model. 
 # considerations
 Improvements can be made to this project to achieve a better Kaggle score. Things that could have been done include more feature engineering, 
