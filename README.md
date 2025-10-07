@@ -10,10 +10,10 @@ These plots explore the relationship between the number of bikeshare rentals and
 These plots were made using the ggplot2 and patchwork packages in R, shown in the attached R script "Bikeshare EDA.R".
 # Data
 All data for this project was obtained from the Kaggle website. 
-# purpose 
+# Purpose 
 This project was done for a university project in my predictive analytics (STAT 348) class at Brigham Young University. The goal of this assignment was to achieve a Kaggle
 score below 0.4. I achieved a score of 0.396 using a Random Forests model. 
-# considerations
+# Considerations
 Improvements can be made to this project to achieve a better Kaggle score. Things that could have been done include more feature engineering, 
 such as creating more features that may have been obscured in the data, different or more complex models, such as advanced ensemble methods. I did not explore this
 project further because I achieved the target score for this assignment. 
