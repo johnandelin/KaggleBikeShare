@@ -10,10 +10,11 @@ BikeShareTrain <- BikeShareTrain|>
   mutate(season = as.factor(season))|>
   mutate(weather = as.factor(weather))|>
   mutate(holiday = as.factor(holiday))|>
-  mutate(workingday = as.factor(workingday))
-
+  mutate(workingday = as.factor(workingday)) # season, weather, holiday, and workingday are all numeric indicators that need to be changed to factors.
+#### Plots ####
+# weather bar plot
 Weather_plot <- BikeShareTrain|>
-  ggplot(aes(x = weather, fill = weather))+
+  ggplot(aes(x = weather, fill = weather))+ 
   geom_bar()+
   labs(
     x = "Weather",
@@ -23,6 +24,7 @@ Weather_plot <- BikeShareTrain|>
   )+
   theme(legend.position = "none")
 
+# season box plot
 Season_plot <- BikeShareTrain|>
   ggplot(aes(x = season , y = count, fill = season))+
   geom_boxplot()+
@@ -34,6 +36,7 @@ Season_plot <- BikeShareTrain|>
   )+
   theme(legend.position = "none")
 
+# Working day bar plot
 Work_plot <- BikeShareTrain|>
   ggplot(aes(y = workingday, fill = workingday))+
   geom_bar()+
@@ -45,6 +48,7 @@ Work_plot <- BikeShareTrain|>
   )+
   theme(legend.position = "none")
 
+# Temp scatter plot. 
 Temp_plot <- BikeShareTrain|>
   ggplot(aes(x = temp, y = count))+
   geom_point()+
@@ -55,6 +59,7 @@ Temp_plot <- BikeShareTrain|>
   )+
   geom_smooth(method = "lm", color = "red")
 
+#### patchwork ####
 (Season_plot | Weather_plot)/(Temp_plot | Work_plot) +
   plot_annotation(caption = "Data source: Kaggle.com")
 
