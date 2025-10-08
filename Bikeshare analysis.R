@@ -35,7 +35,7 @@ head(baked_train)
 
 vroom_write(x = baked_train, file = "./backed_train.csv", delim = ",")
 vroom_write(x = baked_test, file = "./baked_test.csv", delim = ",")
-#### Modeling ####
+#### Linear Regression ####
 
 # Defining the model 
 
@@ -43,7 +43,7 @@ my_linear_model <- linear_reg() |>
   set_engine("lm")|>
   set_mode("regression") 
 
-# Combining into a workflow and fit 
+# workflow and fit 
 
 my_workflow <- workflow()|>
   add_recipe(my_recipe)|>
@@ -51,8 +51,9 @@ my_workflow <- workflow()|>
   fit(data = trainData)
 
 
-#### predictions and Kaggle submission ####
+# predictions and Kaggle submission 
 # Generate predictions on test set
+
 lin_preds <- predict(my_workflow, new_data = testData)
 
 # Format predictions for Kaggle submission
@@ -74,10 +75,13 @@ preg_model <- linear_reg(penalty = tune(), mixture = tune())|> # .01, 1 = 1.006
 preg_workflow <- workflow()|>
   add_recipe(my_recipe)|>
   add_model(preg_model)
+
 # Grid of values to tune over
+
 grid_of_tuning_params <- grid_regular(penalty(),
                                      mixture(),
                                      levels = 4)
+
 # spiting up the data for CV
 folds <- vfold_cv(trainData, v = 5, repeats = 1)
 
@@ -86,19 +90,22 @@ CV_results <- preg_workflow|>
   tune_grid(resamples = folds, 
             grid = grid_of_tuning_params,
             metrics = metric_set(rmse,mae))
+
 # plot of the results 
 collect_metrics(CV_results)|>
   filter(.metric == "rmse")|>
   ggplot(aes(x = penalty, y = mean, color = factor(mixture)))+
   geom_line()
+
 # find best tuning parameters 
 bestTune <- CV_reults|>
   select_best(metric = "rmse")
 bestTune
 
-
+# predictions
 lin_preds_pen <- predict(preg_workflow, new_data = testData)
 
+# formatting for kaggle submission
 kaggle_submission <- lin_preds_pen |> 
   bind_cols(testData) |>  # Bind predictions with test data
   select(datetime, .pred) |> 
@@ -117,7 +124,7 @@ my_tree_mod <- decision_tree(tree_depth = tune(),
   set_engine("rpart")|>
   set_mode("regression")
 
-
+# workflow 
 tree_workflow <- workflow()|>
   add_recipe(my_recipe)|>
   add_model(my_tree_mod)
@@ -144,10 +151,11 @@ final_wf<- tree_workflow|>
   finalize_workflow(bestTune)|>
   fit(data = trainData)
 
+# prediction
  tree_predict <- final_wf|>
   predict(new_data = testData)
 
-
+# formatting for kaggle submission
 kaggle_submission <- tree_predict |> 
   bind_cols(testData) |>  # Bind predictions with test data
   select(datetime, .pred) |> 
@@ -155,6 +163,7 @@ kaggle_submission <- tree_predict |>
   mutate(count = exp(count),        # Back-transform predictions
          count = pmax(0, count),    # Ensure non-negative
          datetime = as.character(format(datetime)))  # Proper datetime format
+
 vroom_write(x = kaggle_submission, file = "./treePreds.csv", delim = ",")
 
 #### Random forests #### 
@@ -164,7 +173,7 @@ my_forest_mod <- rand_forest(mtry = tune(),
   set_engine("ranger")|>
   set_mode("regression")
 
-
+# workflow
 forest_workflow <- workflow()|>
   add_recipe(my_recipe)|>
   add_model(my_forest_mod)
@@ -190,10 +199,11 @@ final_wf<- forest_workflow|>
   finalize_workflow(bestTune)|>
   fit(data = trainData)
 
+# predictions
 forest_predict <- final_wf|>
   predict(new_data = testData)
 
-# Writing the csv for submission
+# formatting for kaggle submission
 Kaggle_submission <- forest_predict |> 
   bind_cols(testData) |>  # Bind predictions with test data
   select(datetime, .pred) |> 
