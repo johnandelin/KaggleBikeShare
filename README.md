@@ -1,6 +1,7 @@
 # Kaggle Bike Share Analysis
 
-This project originates from the Kaggle competition: Bike Sharing Demand. https://www.kaggle.com/competitions/bike-sharing-demand/overview
+This project originates from the Kaggle competition: Bike Sharing Demand. https://www.kaggle.com/competitions/bike-sharing-demand/overview.
+
 I used this dataset to demonstrate various machine learning and predictive modeling techniques, with a focus on feature engineering and model evaluation.
 
 All modeling and feature engineering were performed in R using the Tidyverse and Tidymodels frameworks.
